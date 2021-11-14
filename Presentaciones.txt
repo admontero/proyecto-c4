@@ -15,3 +15,9 @@ Integrante # 3:
 -Cristian Andrés Hincapié Gil
 -Desarrollador.
 -Tengo 22 años, soy de Cocorná Antioquia y vivo en Medellín. Soy tecnólogo en sistemas y trabajo como analista de TI.
+
+Integrante # 4:
+
+-Sebastian Benitez Camayo.
+-Analista | Desarrollador.
+-Tengo 24 años, vivo en Popayán y soy estudiante de Economía en la Universidad del Cauca.
