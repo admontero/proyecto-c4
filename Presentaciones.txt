@@ -10,3 +10,8 @@ Integrante # 2:
 - Product Owner | Desarrollador
 - Tengo 32 años, soy de Galapa, Atlántico, realizé mi pregrado en Historia en la Universidad del Atlántico y también tengo formación en Pedagogía.
 - Me interesa aprender todo lo relacionado al desarrollo web.   
+
+Integrante # 3:
+-Cristian Andrés Hincapié Gil
+-Desarrollador.
+-Tengo 22 años, soy de Cocorná Antioquia y vivo en Medellín. Soy tecnólogo en sistemas y trabajo como analista de TI.
