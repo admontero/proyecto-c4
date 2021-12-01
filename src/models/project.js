@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
-const { composeWithMongoose } = require('graphql-compose-mongoose');
 const Schema = mongoose.Schema;
 
-const Project = new Schema(
+const ProjectSchema = new Schema(
     {
         nombre: {
             type: String
@@ -33,7 +32,7 @@ const Project = new Schema(
         presupuesto: {
             type: Number
         },
-        estado: {
+        estadoProyecto: {
             type: String,
             enum: ['inactivo', 'activo'],
             default: 'inactivo'
@@ -47,7 +46,7 @@ const Project = new Schema(
                 nombre: {
                     type: String
                 },
-                estado: {
+                estadoInscrito: {
                     type: String,
                     enum: ['aceptada', 'rechazada']
                 },
@@ -78,7 +77,4 @@ const Project = new Schema(
     }
 );
 
-module.exports = {
-    ProjectSchema: mongoose.model("projects", Project),
-    ProjectTC: composeWithMongoose(mongoose.model('project', Project))
-}
+module.exports = mongoose.model("Project", ProjectSchema);

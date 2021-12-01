@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
-const { composeWithMongoose } = require('graphql-compose-mongoose');
 const Schema = mongoose.Schema;
 
-const User = new Schema(
+const UserSchema = new Schema(
     {
         correo: {
             type: String,
@@ -20,7 +19,7 @@ const User = new Schema(
             type: String,
             enum: ['estudiante', 'lider', 'administrador']
         },
-        estado: {
+        estadoUsuario: {
             type: String,
             enum: ['pendiente', 'autorizado', 'no autorizado'],
             default: 'pendiente'
@@ -31,7 +30,4 @@ const User = new Schema(
     }
 );
 
-module.exports = {
-    UserSchema: mongoose.model("users", User),
-    UserTC: composeWithMongoose(mongoose.model('user', User))
-};
+module.exports = mongoose.model("User", UserSchema);
