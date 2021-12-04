@@ -59,12 +59,24 @@ const projectResolvers = {
             let projectUpdated = projectService.updateProject(args._id, args);
             return projectUpdated;
         },
-        updateProjectAdvanceRemark: async (parents, args) => {
-            let projectUpdated = projectService.updateProjectAdvanceRemark(args._id, args.remarkId, args.remark);
+        updateSignedState: async (parents, args) => {
+            let projectUpdated = projectService.updateSignedState(args.projectId, args.inscribedId, args.estadoInscrito);
+            return projectUpdated;
+        },
+        updateAdvanceRemark: async (parents, args) => {
+            let projectUpdated = projectService.updateAdvanceRemark(args._id, args.advanceId, args.remark);
             return projectUpdated;
         },
         createInscription: async (parents, args) => {
-            let projectUpdated = projectService.createInscription(args);
+            let projectUpdated = projectService.createInscription(args.projectId, args);
+            return projectUpdated;
+        },
+        createAdvance: async (parents, args) => {
+            let projectUpdated = projectService.createAdvance(args.projectId, args);
+            return projectUpdated;
+        },
+        updateAdvanceDescription: async (parents, args) => {
+            let projectUpdated = projectService.updateAdvanceDescription(args._id, args.advanceId, args.descripcion);
             return projectUpdated;
         }
     }

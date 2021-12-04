@@ -31,9 +31,6 @@ const userType = gql`
         ): User
         getUsers: [User]
         getStudents: [User]
-        getUserById(
-            _id: ID!
-        ): User
     }
 
     type Mutation {

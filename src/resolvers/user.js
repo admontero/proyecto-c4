@@ -24,10 +24,6 @@ const userResolvers = {
             let students = userService.getStudents();
             return students;
         },
-        getUserById: async (parents, args) => {
-            let user = userService.getUserById(args._id);
-            return user;
-        },
     },
     Mutation: {
         createUser: async (parents, args) => {
