@@ -30,6 +30,7 @@ const userType = gql`
             contrasenia: String!
         ): User
         getUsers: [User]
+        getStudents: [User]
         getUserById(
             _id: ID!
         ): User
@@ -55,6 +56,9 @@ const userType = gql`
         updateUserState(
             _id: ID!
             estadoUsuario: String!
+        ): User
+        authorizeStudent(
+            _id: ID!
         ): User
     }
 `;

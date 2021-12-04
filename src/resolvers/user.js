@@ -20,10 +20,14 @@ const userResolvers = {
             let users = userService.getUsers();
             return users;
         },
+        getStudents: async (parents, args) => {
+            let students = userService.getStudents();
+            return students;
+        },
         getUserById: async (parents, args) => {
             let user = userService.getUserById(args._id);
             return user;
-        }
+        },
     },
     Mutation: {
         createUser: async (parents, args) => {
@@ -31,12 +35,16 @@ const userResolvers = {
             return user;
         },
         updateUser: async (parents, args) => {
-            let userUpdated = userService.updateUser(args._id, args)
+            let userUpdated = userService.updateUser(args._id, args);
             return userUpdated;
         },
         updateUserState: async (parents, args) => {
-            let userUpdated = userService.updateUserState(args._id, args.estadoUsuario)
+            let userUpdated = userService.updateUserState(args._id, args.estadoUsuario);
             return userUpdated;
+        },
+        authorizeStudent: async (parents, args) => {
+            let student = userService.authorizeStudent(args._id);
+            return student;
         }
     }
 };
