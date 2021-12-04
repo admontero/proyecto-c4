@@ -43,11 +43,6 @@ authorizeStudent = async (userId) => {
     return student;
 };
 
-getUserById = async (userId) => {
-    let user = await User.findById(userId);
-    return user;
-};
-
 module.exports = {
     createUser,
     authUser,
@@ -55,6 +50,5 @@ module.exports = {
     getUsers,
     updateUserState,
     getStudents,
-    authorizeStudent,
-    getUserById,
+    authorizeStudent
 }

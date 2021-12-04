@@ -29,32 +29,29 @@ const projectType = gql`
         oEspecificos: String
         fInicio: Date
         fTerminacion: Date
-        lider: User
+        lider: Lider
         presupuesto: Int
         estadoProyecto: EstadoProyecto
         fase: Fase
-        inscritos: [Enrolled]
-        avances: [Advance]
-    }
-    
-    type User {
-        _id: ID!
-        correo: String!
-        documento: String!
-        nombre: String!
-        contrasenia: String!
-        tipo: Tipo!
-        estadoUsuario: EstadoUsuario
+        inscritos: [Inscrito]
+        avances: [Avance]
     }
 
-    type Enrolled {
+    type Lider {
+        documento: String!
+        nombre: String!
+        usuarioId: ID!
+    }
+
+    type Inscrito {
+        _id: ID!,
+        nombre: String!
         estadoInscrito: EstadoInscrito
         fIngreso: Date
         fEgreso: Date
-        estudiante: User
+        usuarioId: ID!
     }
-
-    type Advance {
+    type Avance {
         _id: ID!
         fecha: Date
         descripcion: String
@@ -68,13 +65,19 @@ const projectType = gql`
         ): [Project]
         getInscribedByLeader(
             _id: ID!
-        ): [Enrolled]
+        ): [Inscrito]
         getProjectById(
             _id: ID!
         ): Project
         getProjectAdvances(
             _id: ID!
-        ): [Advance]
+        ): [Avance]
+    }
+
+    input LiderInput {
+        documento: String!
+        nombre: String!
+        usuarioId: ID!
     }
 
     type Mutation {
@@ -95,7 +98,7 @@ const projectType = gql`
             oEspecificos: String!
             fInicio: Date
             fTerminacion: Date
-            lider: String!
+            lider: LiderInput!
             presupuesto: Int!
             estadoProyecto: EstadoProyecto
             fase: Fase
@@ -110,18 +113,35 @@ const projectType = gql`
             lider: String
             presupuesto: Int
         ): Project
-        updateProjectAdvanceRemark(
+        updateSignedState(
+            projectId: ID!
+            inscribedId: ID!
+            estadoInscrito: EstadoInscrito!
+        ): Project
+        updateAdvanceRemark(
             _id: ID!
-            remarkId: ID!
+            advanceId: ID!
             remark: String!
         ): Project
         createInscription(
+            projectId: ID!
+            nombre: String!
             estadoInscrito: EstadoInscrito
             fIngreso: Date
             fEgreso: Date
-            estudiante: String!
-            proyecto: String!
-        ): Enrolled
+            usuarioId: ID!
+        ): Project
+        createAdvance(
+            projectId: ID!
+            fecha: Date
+            descripcion: String
+            observaciones: String
+        ): Project
+        updateAdvanceDescription(
+            _id: ID!
+            advanceId: ID!
+            descripcion: String!
+        ): Project
     }
 `;
 

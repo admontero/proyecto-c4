@@ -1,21 +1,10 @@
 const Project = require('../models/project');
-const Enrolled = require('../models/enrolled');
 const ObjectId = require('mongoose').Types.ObjectId
 
 //HU_006. Listar todos los proyectos como administrador
 //HU_019. Listar todos los proyectos como estudiante
 getProjects = async () => {
-    let projects = await Project.find({})
-        .populate({
-            path: 'lider', 
-            select: { 'documento': 1, 'nombre': 1 }
-        }).populate({
-            path: 'inscritos',
-            populate: {
-                path: 'estudiante',
-                select: { 'nombre': 1 }
-            }
-    });
+    let projects = await Project.find({});
     return projects;
 };
 
@@ -46,7 +35,7 @@ createProject = async (project) => {
 
 //HU_013. Listar proyectos de un líder
 getProjectsByLeader = async (leaderId) => {
-    let projects = await Project.find({ "lider": leaderId });
+    let projects = await Project.find({ "lider.usuarioId": leaderId });
     return projects;
 };
 
@@ -58,17 +47,25 @@ updateProject = async (projectId, project) => {
 
 //HU_015. Listar solicitudes de inscripción de un lider
 getInscribedByLeader = async (leaderId) => {
-    let projectIds = [];
-    let projects = await Project.find({ "lider": leaderId });
-    projects.map(p => projectIds.push(p._id.toString()));
-    let inscribed = await Enrolled.find({ estadoInscrito: '' }).populate('estudiante', { 'nombre': 1 });
-    return inscribed.filter(i => projectIds.includes(i.proyecto.toString()));
+    let inscribed = await Project.aggregate([
+        { "$match": { "lider.usuarioId": ObjectId(leaderId) }},
+        { $unwind: "$inscritos" },
+        { "$match": { "inscritos.estadoInscrito": "" } },
+        { $group: { _id: null, inscritos: { $push: "$inscritos" } } },
+        { $project: { _id: 0 } }
+    ]);
+    return inscribed[0]['inscritos'];
 };
 
 //HU_016. Aceptar o rechazar inscripciones (Cambio de estado de inscritos)
-/* updateProjectSignedState = async (leaderId, studentId, estadoInscrito) => {
-    let projectUpdated = await Project.find
-}; */
+updateSignedState = async (projectId, inscribedId, estadoInscrito) => {
+    let projectUpdated = await Project.findOneAndUpdate(
+        { _id: ObjectId(projectId), "inscritos._id": ObjectId(inscribedId) },
+        { $set: { "inscritos.$.estadoInscrito": estadoInscrito } },
+        { new: true }
+    );
+    return projectUpdated;
+};
 
 //HU_017. Ver información de proyecto más avances
 getProjectById = async (projectId) => {
@@ -77,9 +74,9 @@ getProjectById = async (projectId) => {
 };
 
 //HU_018. Actualizar observaciones de un avance
-updateProjectAdvanceRemark = async (projectId, remarkId, observacion) => {
+updateAdvanceRemark = async (projectId, advanceId, observacion) => {
     let projectUpdated = await Project.findOneAndUpdate(
-        { _id: projectId, "avances._id": remarkId }, 
+        { _id: projectId, "avances._id": advanceId }, 
         { $set: { "avances.$.observaciones": observacion } },
         { new: true }    
     );
@@ -87,25 +84,51 @@ updateProjectAdvanceRemark = async (projectId, remarkId, observacion) => {
 };
 
 //HU_020. Registrar inscripción a proyecto
-createInscription = async (enrolled) => {
-    let newEnrolled = new Enrolled(enrolled);
-    enrolledCreated = await newEnrolled.save();
-    await addEnrolledToProject(enrolled['proyecto'], enrolledCreated['_id']);
-    return enrolledCreated;
+createInscription = async (projectId, inscribed) => {
+    let projectUpdated = await Project.findOneAndUpdate(
+        { _id: projectId },
+        { $push: { inscritos: { $each: [
+            {
+                nombre: inscribed.nombre,
+                estadoInscrito: inscribed.estadoProyecto,
+                fIngreso: inscribed.fIngreso,
+                fEgreso: inscribed.fEgreso,
+                usuarioId: inscribed.usuarioId
+            }
+        ] } } }
+    );
+    return projectUpdated;
 };
 
+//HU_021. Avances del proyecto al que estoy inscrito
 getProjectAdvances = async (projectId) => {
-    let advances = await Project.findById(projectId).populate('avances');
-    return advances;
+    let advances = await Project.findById(projectId, { avances: 1, _id: 0 });
+    return advances['avances'];
 };
 
-//OTROS
-addEnrolledToProject = async (proyectoId, enrolledId) => {
-    let project = await Project.findByIdAndUpdate(proyectoId, {
-        $push: { inscritos: enrolledId }
-    });
+//HU_022. Registrar avance a proyecto
+createAdvance = async (projectId, advance) => {
+    let projectUpdated = await Project.findOneAndUpdate(
+        { _id: projectId },
+        { $push: { avances: { $each: [
+            {
+                fecha: advance.fecha,
+                descripcion: advance.descripcion,
+                observaciones: advance.observaciones
+            }
+        ] } } }
+    );
+    return projectUpdated;
+};
 
-    return project;
+//HU_023. Actualizar avance de proyecto
+updateAdvanceDescription = async (projectId, advanceId, descripcion) => {
+    let projectUpdated = await Project.findOneAndUpdate(
+        { _id: projectId, "avances._id": advanceId }, 
+        { $set: { "avances.$.descripcion": descripcion } },
+        { new: true }    
+    );
+    return projectUpdated;
 };
 
 module.exports = {
@@ -117,8 +140,11 @@ module.exports = {
     getProjectsByLeader,
     updateProject,
     getInscribedByLeader,
+    updateSignedState,
     getProjectById,
-    updateProjectAdvanceRemark,
+    updateAdvanceRemark,
     createInscription,
-    getProjectAdvances
+    getProjectAdvances,
+    createAdvance,
+    updateAdvanceDescription
 };
