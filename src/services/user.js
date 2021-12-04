@@ -27,9 +27,20 @@ getUsers = async () => {
 
 //HU_005. Cambiar estado de usuario
 updateUserState = async (userId, estadoUsuario) => {
-    let userUpdated = await User.findByIdAndUpdate({ _id: userId }, { estadoUsuario }, { new: true });
-    console.log(userUpdated);
+    let userUpdated = await User.findByIdAndUpdate(userId, { estadoUsuario }, { new: true });
     return userUpdated;
+};
+
+//HU_010. Listar estudiantes de la plataforma
+getStudents = async () => {
+    let students = await User.find({ tipo: 'estudiante' });
+    return students;
+};
+
+//HU_011. Autorizar estudiante (cambiar estado a autorizado)
+authorizeStudent = async (userId) => {
+    let student = await User.findByIdAndUpdate(userId, { estadoUsuario: 'autorizado' }, { new: true });
+    return student;
 };
 
 getUserById = async (userId) => {
@@ -43,5 +54,7 @@ module.exports = {
     updateUser,
     getUsers,
     updateUserState,
+    getStudents,
+    authorizeStudent,
     getUserById,
 }

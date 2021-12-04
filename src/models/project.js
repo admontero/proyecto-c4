@@ -19,15 +19,8 @@ const ProjectSchema = new Schema(
             type: Date
         },
         lider: {
-            documento: {
-                type: String
-            },
-            nombre: {
-                type: String
-            },
-            usuarioId: {
-                type: mongoose.Schema.Types.ObjectId
-            }
+            type: Schema.Types.ObjectId,
+            ref: 'User'
         },
         presupuesto: {
             type: Number
@@ -39,41 +32,17 @@ const ProjectSchema = new Schema(
         },
         fase: {
             type: String,
-            enum: ['iniciado', 'en desarrollo', 'terminado'],
+            enum: ['', 'iniciado', 'en desarrollo', 'terminado'],
+            default: ''
         },
-        inscritos: [
-            {
-                nombre: {
-                    type: String
-                },
-                estadoInscrito: {
-                    type: String,
-                    enum: ['aceptada', 'rechazada']
-                },
-                fIngreso: {
-                    type: Date
-                },
-                fEgreso: {
-                    type: Date
-                },
-                usuarioId: {
-                    type: mongoose.Schema.Types.ObjectId
-                }
-            }
-        ],
-        avances: [
-            {
-                fecha: {
-                    type: Date
-                },
-                descripcion: {
-                    type: String
-                },
-                observaciones: {
-                    type: String
-                }
-            }
-        ]
+        inscritos: [{
+            type: Schema.Types.ObjectId,
+            ref: 'Enrolled'
+        }],
+        avances: [{
+            type: Schema.Types.ObjectId,
+            ref: 'Advance'
+        }]
     }
 );
 

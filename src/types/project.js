@@ -16,6 +16,12 @@ const projectType = gql`
         TERMINADO
     }
 
+    enum EstadoInscrito {
+        NULA
+        ACEPTADA
+        RECHAZADA
+    }
+
     type Project {
         _id: ID!
         nombre: String!
@@ -23,30 +29,32 @@ const projectType = gql`
         oEspecificos: String
         fInicio: Date
         fTerminacion: Date
-        lider: Lider
+        lider: User
         presupuesto: Int
         estadoProyecto: EstadoProyecto
         fase: Fase
-        inscritos: [Inscrito]
-        avances: [Avance]
+        inscritos: [Enrolled]
+        avances: [Advance]
     }
-
-    type Lider {
+    
+    type User {
+        _id: ID!
+        correo: String!
         documento: String!
         nombre: String!
-        usuarioId: ID!
+        contrasenia: String!
+        tipo: Tipo!
+        estadoUsuario: EstadoUsuario
     }
 
-    type Inscrito {
-        _id: ID!,
-        nombre: String!
-        estadoInscrito: String
+    type Enrolled {
+        estadoInscrito: EstadoInscrito
         fIngreso: Date
         fEgreso: Date
-        usuarioId: ID!
+        estudiante: User
     }
 
-    type Avance {
+    type Advance {
         _id: ID!
         fecha: Date
         descripcion: String
@@ -55,6 +63,18 @@ const projectType = gql`
 
     type Query {
         getProjects: [Project]
+        getProjectsByLeader(
+            _id: ID!
+        ): [Project]
+        getInscribedByLeader(
+            _id: ID!
+        ): [Enrolled]
+        getProjectById(
+            _id: ID!
+        ): Project
+        getProjectAdvances(
+            _id: ID!
+        ): [Advance]
     }
 
     type Mutation {
@@ -69,6 +89,39 @@ const projectType = gql`
             _id: ID!
             fase: Fase!
         ): Project
+        createProject(
+            nombre: String!
+            oGenerales: String!
+            oEspecificos: String!
+            fInicio: Date
+            fTerminacion: Date
+            lider: String!
+            presupuesto: Int!
+            estadoProyecto: EstadoProyecto
+            fase: Fase
+        ): Project
+        updateProject(
+            _id: ID!
+            nombre: String
+            oGenerales: String
+            oEspecificos: String
+            fInicio: Date
+            fTerminacion: Date
+            lider: String
+            presupuesto: Int
+        ): Project
+        updateProjectAdvanceRemark(
+            _id: ID!
+            remarkId: ID!
+            remark: String!
+        ): Project
+        createInscription(
+            estadoInscrito: EstadoInscrito
+            fIngreso: Date
+            fEgreso: Date
+            estudiante: String!
+            proyecto: String!
+        ): Enrolled
     }
 `;
 
