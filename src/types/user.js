@@ -39,8 +39,8 @@ const userType = gql`
             documento: String!
             nombre: String!
             contrasenia: String!
-            tipo: String!
-            estadoUsuario: String
+            tipo: Tipo!
+            estadoUsuario: EstadoUsuario
         ): User
         updateUser(
             _id: ID!
@@ -48,11 +48,11 @@ const userType = gql`
             documento: String
             nombre: String
             contrasenia: String
-            estadoUsuario: String
+            estadoUsuario: EstadoUsuario
         ): User
         updateUserState(
             _id: ID!
-            estadoUsuario: String!
+            estadoUsuario: EstadoUsuario!
         ): User
         authorizeStudent(
             _id: ID!
