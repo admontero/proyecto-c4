@@ -25,7 +25,7 @@ const server = new ApolloServer({
 
 mongoose.connect(process.env.DB_MONGO, async () => {
     console.log("conexión exitosa a la base de datos");
-    app.listen(5000, async () => {
+    app.listen(process.env.PORT || 5000, async () => {
         await server.start();
         server.applyMiddleware({ app });
         console.log("Corriendo en el puerto 5000...");
