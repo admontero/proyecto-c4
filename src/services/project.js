@@ -59,12 +59,21 @@ getInscribedByLeader = async (leaderId) => {
 
 //HU_016. Aceptar o rechazar inscripciones (Cambio de estado de inscritos)
 updateSignedState = async (projectId, inscribedId, estadoInscrito) => {
-    let projectUpdated = await Project.findOneAndUpdate(
-        { _id: ObjectId(projectId), "inscritos._id": ObjectId(inscribedId) },
-        { $set: { "inscritos.$.estadoInscrito": estadoInscrito } },
-        { new: true }
-    );
-    return projectUpdated;
+    if (estadoInscrito === 'aceptada') {
+        let projectUpdated = await Project.findOneAndUpdate(
+            { _id: ObjectId(projectId), "inscritos._id": ObjectId(inscribedId) },
+            { $set: { "inscritos.$.estadoInscrito": estadoInscrito, "inscritos.$.fIngreso": Date.now() } },
+            { new: true }
+        );
+        return projectUpdated;
+    } else {
+        let projectUpdated = await Project.findOneAndUpdate(
+            { _id: ObjectId(projectId), "inscritos._id": ObjectId(inscribedId) },
+            { $set: { "inscritos.$.estadoInscrito": estadoInscrito } },
+            { new: true }
+        );
+        return projectUpdated;
+    }
 };
 
 //HU_017. Ver información de proyecto más avances
