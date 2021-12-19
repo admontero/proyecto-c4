@@ -1,0 +1,27 @@
+Integrante # 1:
+- Andrés David Montero Fernández.
+- Scrum master | Desarrollador.
+- Tengo 24 años, vivo en Valledupar - Cesar, soy ingeniero de sistemas recién graduado, 
+enfocado principalmente en el desarrollo de aplicaciones web, me gustan los deportes, el cine 
+y de vez en cuando jugar videojuegos y ver series.
+
+Integrante # 2:
+- Steven Keith Bolgueman Villanueva
+- Product Owner | Desarrollador
+- Tengo 32 años, soy de Galapa, Atlántico, realizé mi pregrado en Historia en la Universidad del Atlántico y también tengo formación en Pedagogía.
+- Me interesa aprender todo lo relacionado al desarrollo web.   
+
+Integrante # 3:
+-Cristian Andrés Hincapié Gil
+-Desarrollador.
+-Tengo 22 años, soy de Cocorná Antioquia y vivo en Medellín. Soy tecnólogo en sistemas y trabajo como analista de TI.
+
+Integrante # 4:
+-Sebastian Benítez Camayo.
+-Analista | Desarrollador.
+-Tengo 24 años, vivo en Popayán y soy estudiante de Economía en la Universidad del Cauca.
+
+Integrante # 5 :
+-Daniela Villada Saavedra
+-Desarrollador
+-Tengo 22 años, soy de Bogotá y soy estudiante de ingenieía ambiental de la Universidad Nacional.

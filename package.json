@@ -1,0 +1,28 @@
+{
+  "name": "proyecto-c4",
+  "version": "1.0.0",
+  "description": "Proyecto Misión TIC Ciclo 4 - Equipo 4",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/admontero/proyecto-c4.git"
+  },
+  "author": "Mad Code",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server-express": "^3.5.0",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "graphql": "^16.0.1",
+    "mongoose": "^6.0.13",
+    "nodemon": "^2.0.15"
+  },
+  "bugs": {
+    "url": "https://github.com/admontero/proyecto-c4/issues"
+  },
+  "homepage": "https://github.com/admontero/proyecto-c4#readme"
+}
