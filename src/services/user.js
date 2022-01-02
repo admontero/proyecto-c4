@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const Project = require('../models/project');
 
 //HU_001. Registro de usuario
 createUser = async (user) => {
@@ -16,6 +17,11 @@ authUser = async (correo, contrasenia) => {
 //HU_003. Actualizar informacion del usuario
 updateUser = async (userId, user) => {
     let userUpdated = await User.findByIdAndUpdate(userId, user, { new: true });
+    //Actualizamos el documento y nombre del lider en la colección de proyectos
+    await Project.updateMany(
+        { "lider.usuarioId": userId }, 
+        { $set: { "lider.documento": user.documento, "lider.nombre": user.nombre } }
+    );
     return userUpdated;
 };
 
